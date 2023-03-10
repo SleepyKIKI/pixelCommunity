@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.pixeldreamer.community.dto.*;
 import com.pixeldreamer.community.provider.*;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 @Controller
 public class AuthorizeController {
 
@@ -26,7 +28,8 @@ public class AuthorizeController {
 
     @GetMapping("/callback")
     public String callback(@RequestParam(name = "code") String code,
-                           @RequestParam(name = "state") String state) {
+                           @RequestParam(name = "state") String state,
+                           HttpServletRequest request) {
         AccessTokenDTO accessTokenDTO = new AccessTokenDTO();
         //accessTokenDTO.setClient_id(clientId);
         accessTokenDTO.setClient_id("6ea671811b8c4bbd1c1d");
@@ -38,7 +41,13 @@ public class AuthorizeController {
         accessTokenDTO.setState(state);
         String accessToken = githubProvider.getAccessToken(accessTokenDTO);
         GithubUser user = githubProvider.getUser(accessToken);
-        System.out.println(user.getName());
-        return "index";
+
+        if (user != null) {
+            request.getSession().setAttribute("user", user);
+            return "redirect:/";
+        }
+        else {
+            return "redirect:/";
+        }
     }
 }
