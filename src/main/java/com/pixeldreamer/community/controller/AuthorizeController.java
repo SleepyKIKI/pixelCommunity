@@ -2,10 +2,7 @@ package com.pixeldreamer.community.controller;
 
 import java.util.UUID;
 
-import org.apache.catalina.User;
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,23 +12,14 @@ import com.pixeldreamer.community.mapper.UserMapper;
 import com.pixeldreamer.community.model.Users;
 import com.pixeldreamer.community.provider.*;
 
-import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 
-//@MapperScan("com.pixeldreamer.community.mapper")
 @Controller
 public class AuthorizeController {
 
     @Autowired
     private GithubProvider githubProvider;
-
-    /* cannnot run
-    @Value("${github.client.id}")
-    private String clientId;
-    @Value("${github.client.scret}")
-    private String clientScret;
-    @Value("${github.redirect.uri}")
-    private String redirectUri;
-     */
 
     @Autowired
     private UserMapper userMapper;
@@ -39,7 +27,7 @@ public class AuthorizeController {
     @GetMapping("/callback")
     public String callback(@RequestParam(name = "code") String code,
                            @RequestParam(name = "state") String state,
-                           HttpServletRequest request) {
+                           HttpServletResponse response) {
         AccessTokenDTO accessTokenDTO = new AccessTokenDTO();
         //accessTokenDTO.setClient_id(clientId);
         accessTokenDTO.setClient_id("6ea671811b8c4bbd1c1d");
@@ -55,7 +43,8 @@ public class AuthorizeController {
         if (gihubuser != null) {
             // sql model
             Users users = new Users();
-            users.setToken(UUID.randomUUID().toString());
+            String token = UUID.randomUUID().toString();
+            users.setToken(token);
             users.setName(gihubuser.getName());
             users.setAccountId(String.valueOf(gihubuser.getId()));
             users.setGmtCreate(System.currentTimeMillis());
@@ -63,8 +52,8 @@ public class AuthorizeController {
 
             userMapper.insert(users);
 
-            // session
-            request.getSession().setAttribute("user", gihubuser);
+            response.addCookie(new Cookie("token", token));
+
             return "redirect:/";
         }
         else {
