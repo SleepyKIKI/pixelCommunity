@@ -32,11 +32,11 @@
                 <ul class="dropdown-menu">
                     <li><a href="#">Profile</a></li>
                     <li><a href="#">Message</a></li>
-                    <li><a href="#">Log out</a></li>
+                    <li><a href="#">Sign out</a></li>
                 </ul>
             </li>
             <li th:if="${session.user == null}">
-                <a href="https://github.com/login/oauth/authorize?client_id=6ea671811b8c4bbd1c1d&redirect_url=https://localhost:8081/callback&scope=user&state=623">log in</a>
+                <a href="https://github.com/login/oauth/authorize?client_id=6ea671811b8c4bbd1c1d&redirect_url=https://localhost:8666/callback&scope=user&state=623">Sign in</a>
             </li>
         </ul>
         </div><!-- /.navbar-collapse -->
