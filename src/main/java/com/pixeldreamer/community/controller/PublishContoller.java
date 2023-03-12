@@ -54,16 +54,19 @@ public class PublishContoller {
             return "publish";
         }
         
+        /*using cookie to establish a long-time sign*/
         Users users = null;
         Cookie[] cookies = request.getCookies();
-        for (Cookie cookie : cookies) {
-            if (cookie.getName().equals("token")) {
-                String token = cookie.getValue();
-                users = userMapper.findByToken(token);
-                if (users!=null) {
-                    request.getSession().setAttribute("users", token);
+        if (cookies!=null && cookies.length!=0) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("token")) {
+                    String token = cookie.getValue();
+                    users = userMapper.findByToken(token);
+                    if (users!=null) {
+                        request.getSession().setAttribute("users", users);
+                    }
+                    break;
                 }
-                break;
             }
         }
 

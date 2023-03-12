@@ -16,7 +16,7 @@
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
             <span class="sr-only">Pixel Community</span>
         </button>
-        <a class="navbar-brand" href="#">Pixel Community</a>
+        <a class="navbar-brand" href="/">Pixel Community</a>
         </div>
     
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -28,18 +28,18 @@
             <button type="submit" class="btn btn-default">submit</button>
         </form>
         <ul class="nav navbar-nav navbar-right">
-            <li th:if="${session.user != null}">
+            <li th:if="${session.users != null}">
                 <a href="/publish">发布</a>
             </li>
-            <li class="dropdown" th:if="${session.user != null}">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" th:text="${session.user.getName()}"> <span class="caret"></span></a>
+            <li class="dropdown" th:if="${session.users != null}">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" th:text="${session.users.getName()}"> <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                     <li><a href="#">Profile</a></li>
                     <li><a href="#">Message</a></li>
                     <li><a href="#">Sign out</a></li>
                 </ul>
             </li>
-            <li th:if="${session.user == null}">
+            <li th:if="${session.users == null}">
                 <a href="https://github.com/login/oauth/authorize?client_id=6ea671811b8c4bbd1c1d&redirect_url=https://localhost:8666/callback&scope=user&state=623">Sign in</a>
             </li>
         </ul>

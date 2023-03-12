@@ -1,9 +1,11 @@
-package com.pixeldreamer.community.model;
+package com.pixeldreamer.community.dto;
+
+import com.pixeldreamer.community.model.Users;
 
 import lombok.Data;
 
 @Data
-public class Question {
+public class QuestionDTO {
     private Integer id;
     private String title;
     private String description;
@@ -14,4 +16,5 @@ public class Question {
     private Integer viewCount;
     private Integer likeCount;
     private Integer commentCount;
+    private Users users;
 }

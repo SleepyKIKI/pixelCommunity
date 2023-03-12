@@ -47,6 +47,8 @@ public class GithubProvider {
             Response response = client.newCall(request).execute();
             String string = response.body().string();
             GithubUser githubUser = JSON.parseObject(string, GithubUser.class);
+            // using a hash-generated avatar rather than the avatar on github
+            githubUser.setAvatarUrl("https://api.dicebear.com/5.x/adventurer/svg");
             return githubUser;
         } catch (Exception e) {
         }
