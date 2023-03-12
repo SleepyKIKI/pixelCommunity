@@ -38,15 +38,15 @@ public class AuthorizeController {
         accessTokenDTO.setRedirect_uri("http://localhost:8666/callback");
         accessTokenDTO.setState(state);
         String accessToken = githubProvider.getAccessToken(accessTokenDTO);
-        GithubUser gihubuser = githubProvider.getUser(accessToken);
+        GithubUser gihubUser = githubProvider.getUser(accessToken);
 
-        if (gihubuser != null) {
+        if (gihubUser != null && gihubUser.getId()!=null) {
             // sql model
             Users users = new Users();
             String token = UUID.randomUUID().toString();
             users.setToken(token);
-            users.setName(gihubuser.getName());
-            users.setAccountId(String.valueOf(gihubuser.getId()));
+            users.setName(gihubUser.getName());
+            users.setAccountId(String.valueOf(gihubUser.getId()));
             users.setGmtCreate(System.currentTimeMillis());
             users.setGmtModified(users.getGmtCreate());
 
